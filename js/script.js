@@ -1,9 +1,11 @@
+import {cargarProductos, renderizarProductos} from './productos';
+
 /* INICIO DECLARACION DE VARIABLES */
 let inventarioProductos = [];
 
 /* FIN DECLARACION DE VARIABLES */
 
-document.getElementById('btn-agregarProducto').addEventListener('click', () => {
+document.getElementById('btn-CargarProducto').addEventListener('click', () => {
     btnAgregarProducto(
         document.getElementById('nombre-producto').value,
         document.getElementById('id-producto').value,
@@ -37,15 +39,7 @@ function btnAgregarProducto(nombreParam, idParam, stockParam, precioParam) {
     }
 }
 
-function renderizarProductos() {
-    const listaProductos = document.getElementById('listaProductos');
-    listaProductos.innerHTML = '';
-    inventarioProductos.forEach(producto => {
-        const li = document.createElement('li');
-        li.textContent = `${producto.nombre} - $${producto.precio}`;
-        listaProductos.appendChild(li);
-    });
-}
+
 
 function guardarInventario() {
     localStorage.setItem('inventory', JSON.stringify(inventarioProductos));
@@ -59,3 +53,51 @@ function mostrarMensaje(mensaje) {
         confirmButtonText: 'Aceptar'
     });
 }
+
+/** INICIO DE SESION */
+document.getElementById('btn-InicioSesion').addEventListener('click', () => {
+    const usuario = document.getElementById("usuario").value;
+    const contrasena = document.getElementById("contrasena").value;
+
+    let usuarioValido = false;
+
+    if (usuario === 'admin' && contrasena === '123') {
+        inicioCorrecto();
+        usuarioValido = true;
+        localStorage.setItem('usuario', usuario);
+        localStorage.setItem('contraseña', contrasena);
+
+        /** toast incio correcto */
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "Inicio de correcto de sesión"
+        });
+
+
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "mmm...",
+            text: "Usuario o contraseña inválidas"
+        });
+    }
+})
+
+function desbloquearBotones() {
+    document.getElementById("btn-CargarProducto").disabled = false;
+    document.getElementById("btn-AgregarProducto").disabled = false;
+    document.getElementById("btn-CrearPedido").disabled = false;
+    document.getElementById("btn-GenerarReporte").disabled = false;
+}
+

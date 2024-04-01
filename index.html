@@ -13,19 +13,47 @@
 </head>
 
 <body>
-
     <header>
-        <div class="contenedor">
-            <h1>Pre entregable 2 - Javascript</h1>            
+        <div class="conteneder">
+            <div class="logo-titulo">
+                <img src="" alt="logotipo">
+                <h3 style="text-align: center;">SDI - Sistema de Distribución Interna</h3>
+            </div>
+
             <div class="cabecera-login">
-                <label for="entradaName">Usuario</label>
-                <input type="text" name="" id="entradaName">
-                <label for="entradaEmail">email</label>
-                <input type="email" name="" id="entradaEmail">
+                <form id="form-login" class="login">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" name="usuario" id="usuario" required>
+                    <br>
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" name="contrasena" id="contrasena" required>
+                    <button id="btn-InicioSesion" type="submit">Iniciar Sesión</button>
+                </form>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#productos">Productos</a></li>
+                        <li><a href="">Sucursales</a></li>
+                        <li><a href="">Inventario</a></li>
+                        <li><a href="">Clientes</a></li>
+                        <li><a href="">Pedidos</a></li>
+                        <li><a href="">Reportes</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </header>
     <main>
+        <section class="botonera">
+            <fieldset style="text-align: center;">
+                <legend>Acciones rápidas</legend>
+                <div class="uk-button-group">
+                    <button id="btn-AgregarProducto" class="" disabled="true">Agregar Producto</button>
+                    <button id="btn-CrearPedido" class="" disabled="true">Crear Pedido</button>
+                    <button id="btn-GenerarReporte" class="" disabled="true">Generar Reporte</button>
+                </div>
+            </fieldset>
+
+        </section>
         <section id="section-productos">
             <div class="contenedor">
                 <fieldset>
@@ -55,19 +83,37 @@
                         <input type="text" id="stock-producto">
                         <label for="precio-producto">Precio</label>
                         <input type="number" name="" id="precio-producto">
-                        <button id="btn-agregarProducto">Agregar <i class='fas fa-archive'></i></button>
+                        <button id="btn-CargarProducto" disabled="true">Agregar <i class='fas fa-archive'></i></button>
                     </div>
                     <div id="mensaje">-</div>
-                </fieldset>
-                <fieldset>
-                    <legend>Listado de Productos</legend>
-                    <!-- Sección de productos en la tienda -->
-                    <div class="productosTienda">
-                        <ul id="listaProductos"></ul>
-                    </div>
-                </fieldset>
+                </fieldset>                
             </div>
         </section>
+
+        <!-- Sección de productos en la tienda -->
+        <section id="productos">
+            <h2>Productos</h2>
+            <ul id="listaProductos"></ul>
+            <ion-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col="6" *ngFor="let producto of productos">
+                            <ion-card>
+                                <ion-img [src]="assets/img"></ion-img>
+                                <ion-card-header>
+                                    <ion-card-title>{{ producto.nombre }}</ion-card-title>
+                                  </ion-card-header>
+                                  <ion-card-content>
+                                    <p>Precio: {{ producto.precio }}</p>
+                                    <p>Stock: {{ producto.stock }}</p>
+                                  </ion-card-content>
+                            </ion-card>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+        </section>
+
 
     </main>
 
