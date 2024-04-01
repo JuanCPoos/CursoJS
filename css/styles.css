@@ -1,0 +1,39 @@
+body {
+  background-color: beige;
+}
+
+fieldset {
+  margin: 1em;
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 0px 7px 25px 0px;
+}
+
+label,
+input {
+  margin-top: 8px;
+  padding: 3px;
+}
+
+button {
+  background-color: cornflowerblue;
+  padding: 0.4em 1em;
+  border-radius: 0px 0px 12px;
+  border: 0.45px solid;
+  margin: 0px 5px;
+}
+
+main #agregar-productos .productosTienda ul button {
+  background-color: none;
+  transform: none;
+}
+
+.contenedor {
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=styles.css.map */
