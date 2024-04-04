@@ -19,8 +19,7 @@
                 <img src="" alt="logotipo">
                 <h3 style="text-align: center;">SDI - Sistema de Distribución Interna</h3>
             </div>
-
-            <div class="cabecera-login">
+            <div class="">
                 <form id="form-login" class="login">
                     <label for="usuario">Usuario</label>
                     <input type="text" name="usuario" id="usuario" required>
@@ -28,30 +27,33 @@
                     <label for="contrasena">Contraseña</label>
                     <input type="password" name="contrasena" id="contrasena" required>
                     <button id="btn-InicioSesion" type="submit">Iniciar Sesión</button>
-                </form>
-                <nav>
-                    <ul>
-                        <li><a href="index.html#productos">Productos</a></li>
-                        <li><a href="">Sucursales</a></li>
-                        <li><a href="">Inventario</a></li>
-                        <li><a href="">Clientes</a></li>
-                        <li><a href="">Pedidos</a></li>
-                        <li><a href="">Reportes</a></li>
-                    </ul>
-                </nav>
+                </form>                
             </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#productos">Productos</a></li>
+                    <li><a href="">Sucursales</a></li>
+                    <li><a href="">Inventario</a></li>
+                    <li><a href="">Clientes</a></li>
+                    <li><a href="">Pedidos</a></li>
+                    <li><a href="">Reportes</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
     <main>
-        <section class="botonera">
-            <fieldset style="text-align: center;">
-                <legend>Acciones rápidas</legend>
-                <div class="uk-button-group">
-                    <button id="btn-AgregarProducto" class="" disabled="true">Agregar Producto</button>
-                    <button id="btn-CrearPedido" class="" disabled="true">Crear Pedido</button>
-                    <button id="btn-GenerarReporte" class="" disabled="true">Generar Reporte</button>
-                </div>
-            </fieldset>
+        <section id="botonera">
+            <div class="contenedor">
+                <fieldset style="text-align: center;">
+                    <legend>Acciones rápidas</legend>
+                    <div class="uk-button-group">
+                        <button id="btn-AgregarProducto" class="" disabled="true">Agregar Producto</button>
+                        <button id="btn-CrearPedido" class="" disabled="true">Crear Pedido</button>
+                        <button id="btn-GenerarReporte" class="" disabled="true">Generar Reporte</button>
+                    </div>
+                </fieldset>
+            </div>
+
 
         </section>
         <section id="section-productos">
@@ -70,7 +72,7 @@
         </section>
 
         <!-- Sección para agregar productos -->
-        <section id="agregar-productos">
+        <!--   <section id="agregar-productos">
             <div class="contenedor">
                 <fieldset>
                     <legend>Agregar productos</legend>
@@ -86,39 +88,65 @@
                         <button id="btn-CargarProducto" disabled="true">Agregar <i class='fas fa-archive'></i></button>
                     </div>
                     <div id="mensaje">-</div>
-                </fieldset>                
+                </fieldset>
             </div>
-        </section>
+        </section> -->
 
         <!-- Sección de productos en la tienda -->
-        <section id="productos">
+        <!-- <section id="productos">
             <h2>Productos</h2>
-            <ul id="listaProductos"></ul>
+            <ul id="listaProductos" class="ion-grid"></ul>
             <ion-content>
                 <ion-grid>
                     <ion-row>
                         <ion-col col="6" *ngFor="let producto of productos">
-                            <ion-card>
-                                <ion-img [src]="assets/img"></ion-img>
-                                <ion-card-header>
-                                    <ion-card-title>{{ producto.nombre }}</ion-card-title>
-                                  </ion-card-header>
-                                  <ion-card-content>
-                                    <p>Precio: {{ producto.precio }}</p>
-                                    <p>Stock: {{ producto.stock }}</p>
-                                  </ion-card-content>
-                            </ion-card>
+
                         </ion-col>
                     </ion-row>
                 </ion-grid>
             </ion-content>
+        </section> -->
+
+
+        <!-- Aquí se mostrarán los productos -->
+        <section id="productos">
+            <div class="contenedor">
+                <h2>Productos</h2>
+                <ul id="listaProductos" class="ion-grid"></ul>
+                <ion-content class="conteneder">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col col="6" *ngFor="let producto of productos" color="primary">
+
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-content>
+            </div>
+
         </section>
 
+        <section id="agregarProducto">
+            <div class="contenedor">
+                <h2>Agregar Nuevo Producto</h2>
+                <form id="formAgregarProducto">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" required>
+                    <label for="precio">Precio:</label>
+                    <input type="number" id="precio" required>
+                    <label for="stock">Stock:</label>
+                    <input type="number" id="stock" required>
+                    <button type="submit">Agregar Producto</button>
+                </form>
+            </div>
+
+        </section>
 
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/script.js"></script>
+    <script src="js/productos.js"></script>
+    <script src="js/sesion.js"></script>
 </body>
 
 </html>

@@ -1,106 +1,156 @@
-[
-    {
-        "id": 1,
-        "nombre": 'cuchara albañileria',
-        "precio": 17570
-    },
-    {
-        "id": 1,
-        "nombre": 'cuchara albañileria',
-        "precio": 17570
-    },
-    {
-        "id": 1,
-        "nombre": 'cuchara albañileria',
-        "precio": 17570
-    },
-]
 
-/** función para cargar productos desde el almacenamiento local */
-function cargarProductos() {
-    return new Promise((resolve, reject) => {
-        const productos = localStorage.getItem("productos");
-        if (productos) {
-            resolve(JSON.parse(productos));
-        } else {
-            reject("No hay productos almacenados");
-        }
+// Array para almacenar los productos
+const productos = [];
+/* Definir una clase Producto para representar cada producto */
+class Producto {
+    constructor(nombre, precio, stock, imagen) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.image = imagen;
+    }
+}
+
+/* Obtener referencia al formulario de agregar producto */
+const formAgregarProducto = document.getElementById('formAgregarProducto');
+
+// Obtener referencia al contenedor de lista de productos
+const listaProductos = document.getElementById('listaProductos');
+
+/**productos que se cargan con la página */
+const productosPredefinidos = [
+    new Producto('Cuchara Albañileria N° 6', 15000, 12, 'assets\img\cuchara albanileria N6.jpg'),
+    new Producto('Cuchara albañileria N° 8', 16250, 12, 'assets\img\cuchara albanileria N8.jpg'),
+    new Producto('Cuchara Albañileria N° 6', 15000, 12, 'assets\img\cuchara albanileria N6.jpg'),
+    new Producto('Cuchara albañileria N° 8', 16250, 12, 'assets\img\cuchara albanileria N8.jpg'),
+    new Producto('Cuchara Albañileria N° 6', 15000, 12, 'assets\img\cuchara albanileria N6.jpg'),
+    new Producto('Cuchara albañileria N° 8', 16250, 12, 'assets\img\cuchara albanileria N8.jpg')
+]
+/**cargar productos predefinidos con un recorrido forEarch agregandolos al array Productos */
+function agregarProductosPredefinidos(){
+    productosPredefinidos.forEach(producto => {
+        productos.push(producto)
     });
 }
 
-/** prueba inicio de sesion*/
-/* iniciarSesion(usuario, contrasena)
-    .then((mensaje) => {
-        console.log(mensaje);
-        return cargarProductos();
-    })
-    .then((productos) => {
-        console.log("Productos cargados:", productos);
-        // Otros pasos, como mostrar los productos en la página
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-    }); */
+agregarProductosPredefinidos();
 
 
+// Función para agregar un nuevo producto
+function agregarProducto(event) {
+    event.preventDefault(); // Evitar el envío del formulario
 
-// Event listener para cargar productos predefinidos al cargar la página
-window.addEventListener('load', () => {
-    // Verifica si ya hay productos en el almacenamiento local
-    const productosGuardados = localStorage.getItem('productos');
-    if (productosGuardados) {
-        // Si hay productos guardados, los cargamos en el array productos
-        productos = JSON.parse(productosGuardados);
-    } else {
-        // Si no hay productos guardados, agregamos algunos productos predefinidos
-        productos = [
-            { nombre: 'Martillo', id: '001', stock: 10, precio: 15 },
-            { nombre: 'Destornillador', id: '002', stock: 20, precio: 10 },
-            { nombre: 'Sierra', id: '003', stock: 5, precio: 30 }
-        ];
-        // Guardamos los productos predefinidos en el almacenamiento local
-        localStorage.setItem('productos', JSON.stringify(productos));
-    }
+    // Obtener los valores del formulario
+    const nombre = document.getElementById('nombre').value;
+    const precio = parseFloat(document.getElementById('precio').value);
+    const stock = parseInt(document.getElementById('stock').value);
 
-    // Renderizamos la lista de productos en la página
-    renderizarProductos(productos);
-});
+    // Crear un nuevo objeto Producto
+    const nuevoProducto = new Producto(nombre, precio, stock);
 
+    // Agregar el nuevo producto al array de productos
+    productos.push(nuevoProducto);
 
-/** ******************** ALMACENAR PRODUCTOS *************************************/
-// Array para almacenar los productos
-let productos = [];
+    // Limpiar el formulario
+    formAgregarProducto.reset();
 
-// Event listener para cargar productos predefinidos al cargar la página
-window.addEventListener('load', () => {
-    // Verifica si ya hay productos en el almacenamiento local
-    const productosGuardados = localStorage.getItem('productos');
-    if (productosGuardados) {
-        // Si hay productos guardados, los cargamos en el array productos
-        productos = JSON.parse(productosGuardados);
-    } else {
-        // Si no hay productos guardados, agregamos algunos productos predefinidos
-        productos = [
-            { nombre: 'Martillo', id: '001', stock: 10, precio: 15 },
-            { nombre: 'Destornillador', id: '002', stock: 20, precio: 10 },
-            { nombre: 'Sierra', id: '003', stock: 5, precio: 30 }
-        ];
-        // Guardamos los productos predefinidos en el almacenamiento local
-        localStorage.setItem('productos', JSON.stringify(productos));
-    }
-
-    // Renderizamos la lista de productos en la página
-    renderizarProductos(productos);
-});
+    // Actualizar la lista de productos en la página
+    renderizarProductos();
+}
 
 // Función para renderizar la lista de productos en la página
-function renderizarProductos(productos) {
+function renderizarProductos() {
+    // Limpiar el contenido anterior de la lista de productos
+    listaProductos.innerHTML = '';
+
+    // Recorrer el array de productos y agregar cada uno a la lista
+    productos.forEach(producto => {
+        const productoElemento = document.createElement('div');
+        productoElemento.classList.add('producto');
+        productoElemento.innerHTML = `
+            <h3>${producto.nombre}</h3>
+            <p>Precio: $${producto.precio.toFixed(2)}</p>
+            <p>Stock: ${producto.stock}</p>
+        `;
+        listaProductos.appendChild(productoElemento);
+    });
+}
+
+// Agregar un evento de escucha para el formulario de agregar producto
+formAgregarProducto.addEventListener('submit', agregarProducto);
+
+// Llamar a la función renderizarProductos inicialmente para mostrar cualquier producto existente
+renderizarProductos();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************** CAMBIOS PARA BORRAR SI NO SIRVE *****************/
+
+// Event listener para cargar productos predefinidos al cargar la página
+/* window.addEventListener('load', () => {
+    // Verifica si ya hay productos en el almacenamiento local
+    const productosGuardados = localStorage.getItem('productos');
+    if (productosGuardados) {
+        // Si hay productos guardados, los cargamos en el array productos
+        producto = JSON.parse(productosGuardados);
+    } else {
+        // Si no hay productos guardados, agregamos algunos productos predefinidos
+        producto = [
+            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: '/assets/img/cuchara albañileria N6.jpg' },
+            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: '/assets/img/cuchara albañileria N6.jpg' },
+            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: './assets/img//pala' }
+        ];
+        // Guardamos los productos predefinidos en el almacenamiento local
+        localStorage.setItem('productos', JSON.stringify(producto));
+    }
+
+     Renderizamos la lista de productos en la página
+    renderizarProductos(producto);
+}); */
+
+// renderizar la lista de productos en la página
+/* function renderizarProductos(producto) {
     const listaProductos = document.getElementById('listaProductos');
     listaProductos.innerHTML = '';
 
-    productos.forEach(producto => {
-        const li = document.createElement('li');
-        li.textContent = `${producto.nombre} - Stock: ${producto.stock} - Precio: ${producto.precio}`;
-        listaProductos.appendChild(li);
+    producto.forEach(producto => {
+        const card = document.createElement('ion-card');
+
+        const img = document.createElement('ion-img');
+        img.src = producto.imagen;
+
+        const cardHeader = document.createElement('ion-card-header');
+        const cardTitle = document.createElement('ion-card-title');
+        cardTitle.textContent = producto.nombre;
+
+
+        const cardContent = document.createElement('ion-card-content');
+        const precioParrafo = document.createElement('p');
+        precioParrafo.textContent = 'Precio: ' + producto.precio;
+        const stockParrafo = document.createElement('p');
+        stockParrafo.textContent = 'Stock: ' + producto.stock;
+
+        cardHeader.appendChild(cardTitle);
+        cardContent.appendChild(precioParrafo);
+        cardContent.appendChild(stockParrafo);
+
+        card.appendChild(img);
+        card.appendChild(cardHeader);
+        card.appendChild(cardContent);
+
+        listaProductos.appendChild(card);
     });
-}
+} */
+
+// Otras funciones relacionadas con la gestión de productos...
