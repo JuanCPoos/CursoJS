@@ -42,10 +42,10 @@ document.getElementById('btn-InicioSesion').addEventListener('click', () => {
 function inicioCorrecto() {
     desbloquearBotones();
 }
-
-function desbloquearBotones() {
+/** desbloqueo de botones al iniciar correctamente */
+/* function desbloquearBotones() {
     document.getElementById("btn-CargarProducto").disabled = false;
     document.getElementById("btn-AgregarProducto").disabled = false;
     document.getElementById("btn-CrearPedido").disabled = false;
     document.getElementById("btn-GenerarReporte").disabled = false;
-}
+} */

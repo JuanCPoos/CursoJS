@@ -1,5 +1,4 @@
-
-// Array para almacenar los productos
+/* Array almacena productos */
 const productos = [];
 /* Definir una clase Producto para representar cada producto */
 class Producto {
@@ -83,74 +82,77 @@ formAgregarProducto.addEventListener('submit', agregarProducto);
 renderizarProductos();
 
 
+//export { productos }
 
 
 
-
-
-
-
-
-
-
-
-
-/***************** CAMBIOS PARA BORRAR SI NO SIRVE *****************/
-
-// Event listener para cargar productos predefinidos al cargar la página
-/* window.addEventListener('load', () => {
-    // Verifica si ya hay productos en el almacenamiento local
-    const productosGuardados = localStorage.getItem('productos');
-    if (productosGuardados) {
-        // Si hay productos guardados, los cargamos en el array productos
-        producto = JSON.parse(productosGuardados);
-    } else {
-        // Si no hay productos guardados, agregamos algunos productos predefinidos
-        producto = [
-            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: '/assets/img/cuchara albañileria N6.jpg' },
-            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: '/assets/img/cuchara albañileria N6.jpg' },
-            { nombre: 'Cuchara Albañil N°6', id: '100', stock: 10, precio: 17550, imagen: './assets/img//pala' }
-        ];
-        // Guardamos los productos predefinidos en el almacenamiento local
-        localStorage.setItem('productos', JSON.stringify(producto));
+/* ********* ENVIAR AL ARCHIVO sucursal.js (por qué no funciona?) */
+class Sucursal {
+    constructor(nombre) {
+        this.nombre = nombre;
+        this.inventario = [];
+        /* En este array estan los productos del inventario de la sucursal */
     }
+}
 
-     Renderizamos la lista de productos en la página
-    renderizarProductos(producto);
-}); */
+/* Sucursales */
+const sucursales = [
+    new Sucursal('Sucursal A'),
+    new Sucursal('Sucursal B'),
+    
+];
 
-// renderizar la lista de productos en la página
-/* function renderizarProductos(producto) {
-    const listaProductos = document.getElementById('listaProductos');
-    listaProductos.innerHTML = '';
+/* movemos el stock a otra sucursal */
+function moverStock(productoId, cantidad, sucursalOrigen, sucursalDestino) {
+    // Encontrar el producto en la sucursal de origen    
+    const producto = sucursalOrigen.inventario.find(item => item.id === productoId);
 
-    producto.forEach(producto => {
-        const card = document.createElement('ion-card');
+    // Verificar si hay suficiente stock disponible
+    if (producto && producto.stock >= cantidad) {
+        // Restar la cantidad de productos de la sucursal de origen
+        producto.stock -= cantidad;
 
-        const img = document.createElement('ion-img');
-        img.src = producto.imagen;
+        // Buscar el mismo producto en la sucursal de destino
+        const productoDestino = sucursalDestino.inventario.find(item => item.id === productoId);
 
-        const cardHeader = document.createElement('ion-card-header');
-        const cardTitle = document.createElement('ion-card-title');
-        cardTitle.textContent = producto.nombre;
+        // Si el producto no existe en la sucursal de destino, lo agregamos
+        if (!productoDestino) {
+            sucursalDestino.inventario.push({ ...producto, stock: cantidad });
+        } else {
+            // Si el producto ya existe en la sucursal de destino, simplemente sumamos la cantidad
+            productoDestino.stock += cantidad;
+        }
 
+        // Mostrar un mensaje de éxito o realizar otras acciones necesarias
+        console.log(`Se han enviado ${cantidad} unidades del producto ${producto.nombre} a ${sucursalDestino.nombre}`);
+    } else {
+        // Mostrar un mensaje de error si no hay suficiente stock disponible
+        console.log('No hay suficiente stock disponible para enviar');
+    }
+}
 
-        const cardContent = document.createElement('ion-card-content');
-        const precioParrafo = document.createElement('p');
-        precioParrafo.textContent = 'Precio: ' + producto.precio;
-        const stockParrafo = document.createElement('p');
-        stockParrafo.textContent = 'Stock: ' + producto.stock;
+/* Completar la info para el movimiento de stock
+* y obtener la referencia al elemento selector en el formulario 
+*/
+const selectorProducto = document.getElementById('producto');
 
-        cardHeader.appendChild(cardTitle);
-        cardContent.appendChild(precioParrafo);
-        cardContent.appendChild(stockParrafo);
+// Función para generar dinámicamente las opciones de productos
+function generarOpcionesProductos() {
+    // Limpiar el select para evitar duplicados
+    selectorProducto.innerHTML = '';
 
-        card.appendChild(img);
-        card.appendChild(cardHeader);
-        card.appendChild(cardContent);
-
-        listaProductos.appendChild(card);
+    // Agregar una opción por cada producto en el array
+    productos.forEach(producto => {
+        const option = document.createElement('option');
+        option.value = producto.nombre;
+        option.textContent = producto.nombre;
+        selectorProducto.appendChild(option);
     });
-} */
+}
 
-// Otras funciones relacionadas con la gestión de productos...
+// Llamar a la función para generar las opciones al cargar la página
+window.addEventListener('load', generarOpcionesProductos);
+
+
+
+

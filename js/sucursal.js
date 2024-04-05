@@ -1,3 +1,5 @@
+import {producto} from './productos';
+
 /* Definir la clase Sucursal */
 class Sucursal {
     constructor(nombre) {
@@ -16,7 +18,7 @@ const sucursales = [
 
 /* movemos el stock a otra sucursal */
 function moverStock(productoId, cantidad, sucursalOrigen, sucursalDestino) {
-    // Encontrar el producto en la sucursal de origen
+    // Encontrar el producto en la sucursal de origen    
     const producto = sucursalOrigen.inventario.find(item => item.id === productoId);
 
     // Verificar si hay suficiente stock disponible
@@ -42,3 +44,25 @@ function moverStock(productoId, cantidad, sucursalOrigen, sucursalDestino) {
         console.log('No hay suficiente stock disponible para enviar');
     }
 }
+
+/* Completar la info para el movimiento de stock
+* y obtener la referencia al elemento selector en el formulario 
+*/
+const selectorProducto = document.getElementById('producto');
+
+// Función para generar dinámicamente las opciones de productos
+function generarOpcionesProductos() {
+    // Limpiar el select para evitar duplicados
+    selectorProducto.innerHTML = '';
+
+    // Agregar una opción por cada producto en el array
+    productos.forEach(producto => {
+        const option = document.createElement('option');
+        option.value = producto.nombre;
+        option.textContent = producto.nombre;
+        selectorProducto.appendChild(option);
+    });
+}
+
+// Llamar a la función para generar las opciones al cargar la página
+window.addEventListener('load', generarOpcionesProductos);
