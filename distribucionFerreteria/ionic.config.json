@@ -1,7 +1,0 @@
-{
-  "name": "distribucionFerreteria",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
